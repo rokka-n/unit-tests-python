@@ -1,4 +1,5 @@
 import unittest
+import mock 
 
 from animals import animal
 
@@ -7,6 +8,18 @@ class animal_unittest(unittest.TestCase):
     def setUp(self):
         self.dog_test = animal('Wut')
         self.dog_test.add_trick('Sit')
+    
+    @mock.patch('animals.os')
+
+    def test_dempty_method(self, blah):
+        self.dog_test.dempty("/tmp_test")
+        blah.path.exists.assert_called_with("/tmp_test")
+    
+    @mock.patch('animals.os')
+
+    def test_dempty_list_retrival(self, blah):
+	blah.listdir.return_value = []
+	self.assertEqual(self.dog_test.dempty('/tmp_test'), True) 
 
     def test_dog_class_name_init(self):
         self.assertEqual(self.dog_test.name, 'Wut', 'Correctly set name')
